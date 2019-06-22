@@ -1,18 +1,33 @@
 #include "PCH.h"
 #include <iostream>
 #include <thread>
+struct character
+{
+	char name[10];
+	int level;
+	int score;
+	int x, y;
+};
+
+void print(const character& remsg)
+{
+	std::cout << "이름 : " << remsg.name << std::endl;
+	std::cout << "레벨 : " << remsg.level << std::endl;
+	std::cout << "점수 : " << remsg.score << std::endl;
+	std::cout << "현재위치 : " << remsg.x << ", " << remsg.y << std::endl;
+}
 
 void echo(TCPSocketPtr ServSock, TCPSocketPtr ClientSocket)
 {
 	std::cout << "클라이언트가 접속하였습니다!!" << std::endl;
 	while (true) {
-		char msg[30]="";
-		int size = ClientSocket->Receive(msg, 30);
-		if (size < 0 || msg[0] == '1') {
+		character msg;
+		int size = ClientSocket->Receive(&msg, 100);
+		if (size < 0) {
 			break;
 		}
-		std::cout << "클라이언트 : " << msg << std::endl;
-		ClientSocket->Send(msg, size);
+		print(msg);
+		ClientSocket->Send(&msg, sizeof(msg));
 	}
 	std::cout << "클라이언트 접속 종료" << std::endl;
 }
@@ -37,7 +52,7 @@ int main()
 
 	ServSock->Listen(5);
 
-	
+
 
 	while (true)
 	{
