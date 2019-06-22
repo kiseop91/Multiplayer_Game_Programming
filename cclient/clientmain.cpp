@@ -11,6 +11,7 @@ int main()
 
 	TCPSocketPtr clientSock = SocketUtil::CreateTCPSocket(INET);
 
+
 	clientSock->Connect(clientAddr);
 
 	while (true)
@@ -18,10 +19,14 @@ int main()
 		char msg[30];
 		std::cout << "send > ";
 		std::cin >> msg;
+
+		if (msg[0] == '1')
+			clientSock->~TCPSocket();
+
 		clientSock->Send(msg, sizeof(msg));
 		char remsg[30];
 		clientSock->Receive(remsg, sizeof(msg));
-		std::cout <<"server : "<< remsg << std::endl;
+		std::cout << "server : " << remsg << std::endl;
 	}
 
 	WSACleanup();
