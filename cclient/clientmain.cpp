@@ -17,16 +17,18 @@ int main()
 	while (true)
 	{
 		char msg[30];
-		std::cout << "send > ";
+		std::cout << "메세지 > ";
 		std::cin >> msg;
 
-		if (msg[0] == '1')
-			clientSock->~TCPSocket();
-
 		clientSock->Send(msg, sizeof(msg));
+		if (msg[0] == '1') {
+			clientSock->~TCPSocket();
+			exit(0);
+		}
+
 		char remsg[30];
 		clientSock->Receive(remsg, sizeof(msg));
-		std::cout << "server : " << remsg << std::endl;
+		std::cout << "서버 : " << remsg << std::endl;
 	}
 
 	WSACleanup();
