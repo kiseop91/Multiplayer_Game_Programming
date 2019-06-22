@@ -33,9 +33,6 @@
     <ClCompile Include="UDPSocket.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
     <ClCompile Include="PCH.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
