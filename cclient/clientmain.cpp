@@ -28,14 +28,17 @@ int main()
 
 
 	clientSock->Connect(clientAddr);
-	character tmp{ "kiseop",99,243,0,0 };
+	character tmp;
+	std::cout << "\n\n" << " 정보입력, 아이디, 레벨, 점수, 시작 위치(x,y) ";
+	std::cin >> tmp.name >> tmp.level >> tmp.score >> tmp.x >> tmp.y;
+	std::cout << "\n\n" << "---------------------------------------------" << "\n\n";
 	while (true)
 	{
 		char msg[30];
 		//character tmp{ "kiseop",99,243,0,0 };
-		std::cout << "메세지 > ";
+		std::cout << " 1 누르면 종료합니다. 진행은 아무키나 눌러주세요 > ";
 		std::cin >> msg;
-
+		
 		clientSock->Send(&tmp, sizeof(tmp));
 		if (msg[0] == '1') {
 			clientSock->~TCPSocket();

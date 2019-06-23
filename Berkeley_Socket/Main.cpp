@@ -9,27 +9,32 @@ struct character
 	int x, y;
 };
 
-void print(const character& remsg)
+int clientNumber = 0; //critical section 처리필요함.
+
+void print(const character& remsg,const int thisclientNumber)
 {
+	std::cout << thisclientNumber << "번 클라이언트 정보" << std::endl;
 	std::cout << "이름 : " << remsg.name << std::endl;
 	std::cout << "레벨 : " << remsg.level << std::endl;
 	std::cout << "점수 : " << remsg.score << std::endl;
-	std::cout << "현재위치 : " << remsg.x << ", " << remsg.y << std::endl;
+	std::cout << "현재위치 : " << remsg.x << ", " << remsg.y << '\n' << std::endl;
 }
 
 void echo(TCPSocketPtr ServSock, TCPSocketPtr ClientSocket)
 {
-	std::cout << "클라이언트가 접속하였습니다!!" << std::endl;
+	clientNumber++; // critical section
+	std::cout << clientNumber <<"번 클라이언트가 접속하였습니다!!" << std::endl;
+	int thisclientNumber = clientNumber;
 	while (true) {
 		character msg;
 		int size = ClientSocket->Receive(&msg, 100);
 		if (size < 0) {
 			break;
 		}
-		print(msg);
+		print(msg, thisclientNumber);
 		ClientSocket->Send(&msg, sizeof(msg));
 	}
-	std::cout << "클라이언트 접속 종료" << std::endl;
+	std::cout << thisclientNumber<< "번 클라이언트 접속 종료" <<'\n'<< std::endl;
 }
 
 int main()
