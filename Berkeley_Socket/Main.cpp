@@ -27,12 +27,17 @@ void echo(TCPSocketPtr ServSock, TCPSocketPtr ClientSocket)
 	int thisclientNumber = clientNumber;
 	while (true) {
 		character msg;
-		int size = ClientSocket->Receive(&msg, 100);
+		int size = ClientSocket->Receive(&msg, sizeof(msg));
 		if (size < 0) {
 			break;
 		}
 		print(msg, thisclientNumber);
 		ClientSocket->Send(&msg, sizeof(msg));
+
+		size = ClientSocket->Receive(&msg, sizeof(msg));
+		if (size < 0) {
+			break;
+		}
 	}
 	std::cout << thisclientNumber<< "번 클라이언트 접속 종료" <<'\n'<< std::endl;
 }

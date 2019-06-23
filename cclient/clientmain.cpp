@@ -10,10 +10,12 @@ struct character
 };
 void print(const character& remsg)
 {
-	std::cout << "이름 : " << remsg.name << std::endl;
+	std::cout << "--------------------------------------" << std::endl;
+	std::cout << '\n' << "이름 : " << remsg.name << std::endl;
 	std::cout << "레벨 : " << remsg.level << std::endl;
 	std::cout << "점수 : " << remsg.score << std::endl;
 	std::cout << "현재위치 : " << remsg.x << ", " << remsg.y << std::endl;
+	std::cout << "--------------------------------------" << std::endl;
 }
 int main()
 {
@@ -34,29 +36,15 @@ int main()
 	std::cout << "\n\n" << "---------------------------------------------" << "\n\n";
 	while (true)
 	{
-		char msg[30];
-		//character tmp{ "kiseop",99,243,0,0 };
-		std::cout << " 1 누르면 종료합니다. 진행은 아무키나 눌러주세요 > ";
-		std::cin >> msg;
-		
 		clientSock->Send(&tmp, sizeof(tmp));
-		if (msg[0] == '1') {
-			clientSock->~TCPSocket();
-			exit(0);
-		}
-
-		//character remsg;
 		clientSock->Receive(&tmp, sizeof(tmp));
 		print(tmp);
-		
-		std::cout << "이동할 좌표를 입력하세요 (x, y)"; 
-		std::cin >> tmp.x >> tmp.y;
-		print(tmp);
-		clientSock->Send(&tmp, sizeof(tmp));
 
+		std::cout <<'\n'<< "이동할 좌표를 입력하세요 (x, y)";
+		std::cin >> tmp.x >> tmp.y;
+		clientSock->Send(&tmp, sizeof(tmp));
 	}
 
 	WSACleanup();
-
 	return 0;
 }
