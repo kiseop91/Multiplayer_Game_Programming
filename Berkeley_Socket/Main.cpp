@@ -1,12 +1,15 @@
 #include "PCH.h"
 #include <iostream>
 #include <thread>
-struct character
+class character
 {
+public:
 	char name[10];
 	int level;
 	int score;
 	int x, y;
+	//int* pointer;
+	//vector<int> vec;
 };
 
 int clientNumber = 0; //critical section 처리필요함.
@@ -18,6 +21,7 @@ void print(const character& remsg,const int thisclientNumber)
 	std::cout << "레벨 : " << remsg.level << std::endl;
 	std::cout << "점수 : " << remsg.score << std::endl;
 	std::cout << "현재위치 : " << remsg.x << ", " << remsg.y << '\n' << std::endl;
+	//std::cout << "포인터는? : " << *remsg.pointer << std::endl;
 }
 
 void echo(TCPSocketPtr ServSock, TCPSocketPtr ClientSocket)
@@ -61,8 +65,6 @@ int main()
 	std::cout << "클라이언트 접속 대기중..." << std::endl;
 
 	ServSock->Listen(5);
-
-
 
 	while (true)
 	{

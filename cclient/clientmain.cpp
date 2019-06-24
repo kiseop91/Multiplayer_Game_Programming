@@ -1,12 +1,15 @@
 #include "PCH.h"
 #include <iostream>
 
-struct character
+class character
 {
+public:
 	char name[10];
 	int level;
 	int score;
 	int x, y;
+	//int* pointer;
+	//vector<int> vec;
 };
 void print(const character& remsg)
 {
@@ -15,6 +18,7 @@ void print(const character& remsg)
 	std::cout << "레벨 : " << remsg.level << std::endl;
 	std::cout << "점수 : " << remsg.score << std::endl;
 	std::cout << "현재위치 : " << remsg.x << ", " << remsg.y << std::endl;
+	//std::cout << "포인터는? : " << *remsg.pointer << std::endl;
 	std::cout << "--------------------------------------" << std::endl;
 }
 int main()
@@ -34,6 +38,7 @@ int main()
 	std::cout << "\n\n" << " 정보입력, 아이디, 레벨, 점수, 시작 위치(x,y) ";
 	std::cin >> tmp.name >> tmp.level >> tmp.score >> tmp.x >> tmp.y;
 	std::cout << "\n\n" << "---------------------------------------------" << "\n\n";
+	//tmp.pointer = new int(5);
 	while (true)
 	{
 		clientSock->Send(&tmp, sizeof(tmp));
