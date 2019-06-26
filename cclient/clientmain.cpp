@@ -1,17 +1,18 @@
 #include "PCH.h"
 #include <iostream>
 
-class character
+class Character
 {
 public:
+	int id = -1;
 	char name[10];
-	int level;
-	int score;
-	int x, y;
+	int level = 1;
+	int score = 0;
+	int x = 0, y = 0;
 	//int* pointer;
 	//vector<int> vec;
 };
-void print(const character& remsg)
+void print(const Character& remsg)
 {
 	std::cout << "--------------------------------------" << std::endl;
 	std::cout << '\n' << "이름 : " << remsg.name << std::endl;
@@ -34,9 +35,9 @@ int main()
 
 
 	clientSock->Connect(clientAddr);
-	character tmp;
-	std::cout << "\n\n" << " 정보입력, 아이디, 레벨, 점수, 시작 위치(x,y) ";
-	std::cin >> tmp.name >> tmp.level >> tmp.score >> tmp.x >> tmp.y;
+	Character tmp;
+	std::cout << "\n\n" << " ((정보입력)) 이름 , 레벨 ";
+	std::cin >> tmp.name >> tmp.level; //>> tmp.score >> tmp.x >> tmp.y;
 	std::cout << "\n\n" << "---------------------------------------------" << "\n\n";
 	//tmp.pointer = new int(5);
 	while (true)
@@ -45,7 +46,7 @@ int main()
 		clientSock->Receive(&tmp, sizeof(tmp));
 		print(tmp);
 
-		std::cout <<'\n'<< "이동할 좌표를 입력하세요 (x, y)";
+		std::cout << '\n' << "이동할 좌표를 입력하세요 (x, y)";
 		std::cin >> tmp.x >> tmp.y;
 		clientSock->Send(&tmp, sizeof(tmp));
 	}
