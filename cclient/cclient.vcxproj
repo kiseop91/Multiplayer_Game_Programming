@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeaderShared.h" />
+    <ClInclude Include="OutputMeomoryStream.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />

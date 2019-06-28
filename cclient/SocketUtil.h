@@ -1,3 +1,4 @@
+#pragma once
 enum SocketAddressFamily
 {
 	INET = AF_INET,

@@ -1,6 +1,6 @@
-#include "PCH.h"
 #include <iostream>
-
+#include "PCH.h"
+#include "OutputMeomoryStream.h"
 class Character
 {
 public:
@@ -11,7 +11,17 @@ public:
 	int x = 0, y = 0;
 	//int* pointer;
 	//vector<int> vec;
+	void objectWrtie(OutputMemoryStream& inStream) const;
 };
+void Character::objectWrtie(OutputMemoryStream& inStream) const
+{
+	inStream.Write(id);
+	inStream.Write(name,10);
+	inStream.Write(level);
+	inStream.Write(score);
+	inStream.Write(x);
+	inStream.Write(y);
+}
 void print(const Character& remsg)
 {
 	std::cout << "--------------------------------------" << std::endl;
@@ -42,7 +52,9 @@ int main()
 	//tmp.pointer = new int(5);
 	while (true)
 	{
-		clientSock->Send(&tmp, sizeof(tmp));
+		OutputMemoryStream out;
+		tmp.objectWrtie(out);
+		clientSock->Send(&out, sizeof(out)); // 6월 28일 여기까지 작업했음.
 		clientSock->Receive(&tmp, sizeof(tmp));
 		print(tmp);
 
