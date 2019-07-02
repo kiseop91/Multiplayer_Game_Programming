@@ -1,7 +1,7 @@
 class SocketAddress
 {
 public:
-	SocketAddress( uint32_t inAddress, uint16_t inPort )
+	SocketAddress( uint64_t inAddress, uint16_t inPort )
 	{
 		GetAsSockAddrIn()->sin_family = AF_INET;
 		GetIP4Ref() = htonl( inAddress );
@@ -30,12 +30,12 @@ public:
 	size_t GetHash() const
 	{
 		return ( GetIP4Ref() ) |
-			( ( static_cast< uint32_t >( GetAsSockAddrIn()->sin_port ) ) << 13 ) |
+			( ( static_cast< uint64_t >( GetAsSockAddrIn()->sin_port ) ) << 13 ) |
 			mSockAddr.sa_family;
 	}
 
 
-	uint32_t				GetSize()			const	{ return sizeof( sockaddr ); }
+	uint64_t				GetSize()			const	{ return sizeof( sockaddr ); }
 
 	string					ToString()			const;
 
@@ -45,8 +45,8 @@ private:
 
 	sockaddr mSockAddr;
 #if _WIN32
-	uint32_t&				GetIP4Ref()					{ return *reinterpret_cast< uint32_t* >( &GetAsSockAddrIn()->sin_addr.S_un.S_addr ); }
-	const uint32_t&			GetIP4Ref()			const	{ return *reinterpret_cast< const uint32_t* >( &GetAsSockAddrIn()->sin_addr.S_un.S_addr ); }
+	uint64_t&				GetIP4Ref()					{ return *reinterpret_cast< uint64_t* >( &GetAsSockAddrIn()->sin_addr.S_un.S_addr ); }
+	const uint64_t&			GetIP4Ref()			const	{ return *reinterpret_cast< const uint64_t* >( &GetAsSockAddrIn()->sin_addr.S_un.S_addr ); }
 #else
 	uint32_t&				GetIP4Ref()					{ return GetAsSockAddrIn()->sin_addr.s_addr; }
 	const uint32_t&			GetIP4Ref()			const	{ return GetAsSockAddrIn()->sin_addr.s_addr; }

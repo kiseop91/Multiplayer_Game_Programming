@@ -21,13 +21,13 @@ public:
 	}
 
 private:
-	void ReallocBuffer(uint32_t inNewLength);
+	void ReallocBuffer(uint64_t inNewLength);
 	char* mBuffer;
-	uint32_t mHead;
-	uint32_t mCapacity;
+	uint64_t mHead;
+	uint64_t mCapacity;
 };
 
-void OutputMemoryStream::ReallocBuffer(uint32_t inNewLength)
+void OutputMemoryStream::ReallocBuffer(uint64_t inNewLength)
 {
 	mBuffer = static_cast<char*>(std::realloc(mBuffer, inNewLength));
 	mCapacity = inNewLength;
@@ -35,7 +35,7 @@ void OutputMemoryStream::ReallocBuffer(uint32_t inNewLength)
 
 void OutputMemoryStream::Write(const void* inData, size_t inByteCount)
 {
-	uint32_t resultHead = mHead + static_cast<uint32_t>(inByteCount);
+	uint64_t resultHead = mHead + static_cast<uint64_t>(inByteCount);
 	if (resultHead > mCapacity)
 		ReallocBuffer(std::max(mCapacity * 2, resultHead));
 
