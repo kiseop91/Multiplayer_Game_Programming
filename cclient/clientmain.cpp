@@ -1,6 +1,6 @@
 #include <iostream>
 #include "PCH.h"
-#include "OutputMeomoryStream.h"
+#include "MemoryStream.h"
 class Character
 {
 public:
@@ -11,9 +11,18 @@ public:
 	int x = 0, y = 0;
 	//int* pointer;
 	//vector<int> vec;
-	void objectWrtie(OutputMemoryStream& inStream) const;
+	void Write(OutputMemoryStream& inStream) const;
+	void Read(InputMemoryStream& inStream)
+	{
+		inStream.Read(id);
+		inStream.Read(name, 10);
+		inStream.Read(level);
+		inStream.Read(score);
+		inStream.Read(x);
+		inStream.Read(y);
+	}
 };
-void Character::objectWrtie(OutputMemoryStream& inStream) const
+void Character::Write(OutputMemoryStream& inStream) const
 {
 	inStream.Write(id);
 	inStream.Write(name,10);
@@ -22,6 +31,7 @@ void Character::objectWrtie(OutputMemoryStream& inStream) const
 	inStream.Write(x);
 	inStream.Write(y);
 }
+
 void print(const Character& remsg)
 {
 	std::cout << "--------------------------------------" << std::endl;
@@ -46,21 +56,27 @@ int main()
 
 	clientSock->Connect(clientAddr);
 	Character tmp;
-	std::cout << "\n\n" << " ((정보입력)) 이름 , 레벨 ";
-	std::cin >> tmp.name >> tmp.level; //>> tmp.score >> tmp.x >> tmp.y;
+	std::cout << "\n\n" << " ((정보입력)) 이름 , 레벨,  점수, 좌표( x, y) "<<std::endl;
+	std::cin >> tmp.name >> tmp.level>> tmp.score >> tmp.x >> tmp.y;
 	std::cout << "\n\n" << "---------------------------------------------" << "\n\n";
 	//tmp.pointer = new int(5);
 	while (true)
 	{
 		OutputMemoryStream out;
-		tmp.objectWrtie(out);
-		clientSock->Send(&out, sizeof(out)); // 6월 28일 여기까지 작업했음.
-		clientSock->Receive(&tmp, sizeof(tmp));
+		tmp.Write(out);
+		char* Buffer = static_cast<char*>(malloc(1470));
+		memcpy(Buffer, out.GetBufferPtr(), out.GetLength());
+
+		clientSock->Send(Buffer, out.GetLength()); // 6월 28일 여기까지 작업했음.
+		int siz = clientSock->Receive(Buffer, 1470);
+		InputMemoryStream in(Buffer,siz);
+		tmp.Read(in);
 		print(tmp);
 
 		std::cout << '\n' << "이동할 좌표를 입력하세요 (x, y)";
 		std::cin >> tmp.x >> tmp.y;
-		clientSock->Send(&tmp, sizeof(tmp));
+		tmp.Write(out);
+		clientSock->Send(Buffer, siz);
 	}
 
 	WSACleanup();

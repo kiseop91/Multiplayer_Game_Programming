@@ -2,7 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
-
+#include "MemoryStream.h"
 class Character
 {
 public:
@@ -13,7 +13,26 @@ public:
 	int x = 0, y = 0;
 	//int* pointer;
 	//vector<int> vec;
+	void Write(OutputMemoryStream& inStream) const;
+	void Read(InputMemoryStream& inStream)
+	{
+		inStream.Read(id);
+		inStream.Read(name, 10);
+		inStream.Read(level);
+		inStream.Read(score);
+		inStream.Read(x);
+		inStream.Read(y);
+	}
 };
+void Character::Write(OutputMemoryStream& inStream) const
+{
+	inStream.Write(id);
+	inStream.Write(name, 10);
+	inStream.Write(level);
+	inStream.Write(score);
+	inStream.Write(x);
+	inStream.Write(y);
+}
 
 int clientNumber = 0; //critical section 처리필요함.
 Character c1{ -1,"",0,0,0,0 };
@@ -61,16 +80,21 @@ void echo(TCPSocketPtr ServSock, TCPSocketPtr ClientSocket)
 	int thisclientNumber = clientNumber;
 	while (true) {
 		Character user;
-		int size = ClientSocket->Receive(&user, sizeof(user));
+
+		char* Buffer = static_cast<char*>(malloc(1470));
+
+		int size = ClientSocket->Receive(Buffer, 1470);
 		if (user.id == -1) // 처음 접속할 때 아이디넘버 부여
 			user.id = thisclientNumber;
 		if (size < 0) {
 			break;
 		}
+		InputMemoryStream in(Buffer, size);
+		user.Read(in);
 		print(user, thisclientNumber);
-		ClientSocket->Send(&user, sizeof(user));
+		ClientSocket->Send(Buffer, size);
 
-		size = ClientSocket->Receive(&user, sizeof(user));
+		size = ClientSocket->Receive(Buffer, 1470);
 		if (size < 0) {
 			break;
 		}

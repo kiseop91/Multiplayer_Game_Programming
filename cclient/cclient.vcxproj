@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Berkeley_Socket\MemoryStream.cpp" />
     <ClCompile Include="clientmain.cpp" />
     <ClCompile Include="PCH.cpp" />
     <ClCompile Include="SocketAddress.cpp" />
@@ -150,8 +151,9 @@
     <ClCompile Include="UDPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Berkeley_Socket\ByteSwap.h" />
+    <ClInclude Include="..\Berkeley_Socket\MemoryStream.h" />
     <ClInclude Include="HeaderShared.h" />
-    <ClInclude Include="OutputMeomoryStream.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />

@@ -39,6 +39,9 @@
     <ClCompile Include="SocketAddressFactory.cpp">
       <Filter>리소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="..\Berkeley_Socket\MemoryStream.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SocketAddressFactory.h">
@@ -65,7 +68,10 @@
     <ClInclude Include="SocketAddress.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="OutputMeomoryStream.h">
+    <ClInclude Include="..\Berkeley_Socket\MemoryStream.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Berkeley_Socket\ByteSwap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

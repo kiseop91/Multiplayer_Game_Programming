@@ -143,6 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ByteSwap.h" />
+    <ClInclude Include="MemoryStream.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="HeaderShared.h" />
     <ClInclude Include="SocketAddress.h" />
@@ -154,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MemoryStream.cpp" />
     <ClCompile Include="PCH.cpp" />
     <ClCompile Include="SocketAddress.cpp" />
     <ClCompile Include="SocketAddressFactory.cpp" />
