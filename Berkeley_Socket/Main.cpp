@@ -3,14 +3,14 @@
 #include <thread>
 #include <mutex>
 #include "MemoryStream.h"
-class Character
+class Player
 {
 public:
 	int id = -1;
 	char name[10];
 	int level = 1;
 	int score = 0;
-	int x = 0, y = 0;
+	float x = 0, y = 0;
 	//int* pointer;
 	//vector<int> vec;
 	void Write(OutputMemoryStream& inStream) const;
@@ -24,7 +24,7 @@ public:
 		inStream.Read(y);
 	}
 };
-void Character::Write(OutputMemoryStream& inStream) const
+void Player::Write(OutputMemoryStream& inStream) const
 {
 	inStream.Write(id);
 	inStream.Write(name, 10);
@@ -35,10 +35,10 @@ void Character::Write(OutputMemoryStream& inStream) const
 }
 
 int clientNumber = 0; //critical section 처리필요함.
-Character c1{ -1,"",0,0,0,0 };
+Player c1{ -1,"",0,0,0,0 };
 
 
-void print(const Character& remsg, const int thisclientNumber)
+void print(const Player& remsg, const int thisclientNumber)
 {
 	std::cout << thisclientNumber << "번 클라이언트 정보" << std::endl;
 	std::cout << "이름 : " << remsg.name << std::endl;
@@ -51,7 +51,7 @@ void print(const Character& remsg, const int thisclientNumber)
 bool wait = true;
 std::mutex mtx;
 
-int fight(Character c) // 승리한 사람의 id를 리턴.
+int fight(Player c) // 승리한 사람의 id를 리턴.
 {
 	if (c1.id == -1)
 	{
@@ -79,7 +79,7 @@ void echo(TCPSocketPtr ServSock, TCPSocketPtr ClientSocket)
 	std::cout << clientNumber << "번 클라이언트가 접속하였습니다!!" << std::endl;
 	int thisclientNumber = clientNumber;
 	while (true) {
-		Character user;
+		Player user;
 
 		char* Buffer = static_cast<char*>(malloc(1470));
 
@@ -109,10 +109,11 @@ int main()
 
 	//sockaddr_in addr;
 	SocketAddressFactory fac;
-	string ip = "127.0.0.1:9190";
-	SocketAddress servAddr;
+	//string ip = "127.0.0.1:9190";
+	SocketAddress servAddr(INADDR_ANY, 9190);//중요!
+	//SocketAddress servAddr;
 	SocketAddress clientAddr;
-	servAddr = *fac.CreateIPv4FromString(ip);
+//	servAddr = *fac.CreateIPv4FromString("222.235.79.120:9190");
 
 	TCPSocketPtr ServSock = SocketUtil::CreateTCPSocket(INET);
 

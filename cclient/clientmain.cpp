@@ -8,7 +8,7 @@ public:
 	char name[10];
 	int level = 1;
 	int score = 0;
-	int x = 0, y = 0;
+	float x = 0, y = 0;
 	//int* pointer;
 	//vector<int> vec;
 	void Write(OutputMemoryStream& inStream) const;
@@ -47,7 +47,7 @@ int main()
 	WSADATA wsaData;
 	auto err = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	SocketAddressFactory fac;
-	string ip = "127.0.0.1:9190";
+	string ip = "222.235.79.120:9190";
 	SocketAddress clientAddr;
 	clientAddr = *fac.CreateIPv4FromString(ip);
 

@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BlockData.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemoryStream.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockData.h" />
     <ClInclude Include="ByteSwap.h" />
     <ClInclude Include="kiseop.h" />
     <ClInclude Include="MemoryStream.h" />

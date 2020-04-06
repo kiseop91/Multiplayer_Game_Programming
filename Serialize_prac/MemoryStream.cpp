@@ -23,7 +23,16 @@ void OutputMemoryStream::Write(const void* inData,
 	mHead = resultHead;
 }
 
-
+//template<typename T>
+//void Write(const std::vector<T> inVector)
+//{
+//	uint64_t elementCount = inVector.size();
+//	Write(elementCount);
+//	for (const T& element : inVector)
+//	{
+//		Write(element);
+//	}
+//}
 void InputMemoryStream::Read(void* outData,
 	uint64_t inByteCount)
 {

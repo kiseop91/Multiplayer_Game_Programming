@@ -7,7 +7,7 @@ private:
 
 	char name;
 	int age;
-	std::vector<uint64_t> v;
+	std::vector<int> v;
 public:
 	kiseop(int age = 0, char name = ' ')
 		:age(age), name(name)
